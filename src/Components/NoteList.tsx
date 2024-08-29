@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"
 import ReactSelect from "react-select"
 import { Tag } from "../App";
 import { useMemo, useState } from "react";
-import { v4 as uuidV4 } from "uuid";
 import styles from "./NoteList.module.css"
 
 type SimplifiedNote = {
@@ -73,30 +72,18 @@ const NoteList = ({ availableTags, notes, updateTag, deleteTag }: NoteListProps)
             <Form.Group controlId="tags">
               <Form.Label>Tags</Form.Label>
               <ReactSelect
-                onCreateOption={label => {
-                  const newTag = { id: uuidV4(), label }
-                  onAddTag(newTag)
-                  setSelectedTags(prev => [...prev, newTag])
-                }}
                 value={selectedTags.map(tag => {
-                  return {
-                    label: tag.label,
-                    value: tag.id,
-                  }
+                  return { label: tag.label, value: tag.id }
                 })}
                 options={availableTags.map(tag => {
-                  return {
-                    label: tag.label,
-                    value: tag.id,
-                  }
+                  return { label: tag.label, value: tag.id }
                 })}
                 onChange={tags => {
-                  setSelectedTags(tags.map(tag => {
-                    return {
-                      label: tag.label,
-                      id: tag.value,
-                    }
-                  }))
+                  setSelectedTags(
+                    tags.map(tag => {
+                      return { label: tag.label, id: tag.value }
+                    })
+                  )
                 }}
                 isMulti
               />
